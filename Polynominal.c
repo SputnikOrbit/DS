@@ -62,11 +62,39 @@ void multi(polyPtr a, polyPtr b)
         aPtr  = aPtr->next;
     }
     polyPtr ctmp = cl->next;
+    int all_zeros = 1;
     while (ctmp!=NULL)
     {
         if (ctmp->coef!=0)
         {
-            printf("%d %d ",ctmp->coef, ctmp->exp);
+            all_zeros = 0;
+            break;
+        }
+        ctmp = ctmp->next;
+    }
+    if (all_zeros)
+    {
+        printf("0 0");
+        return;
+    }
+    
+
+    int flag = 0;
+    ctmp = cl->next;
+
+    while (ctmp!=NULL)
+    {
+           
+        if (ctmp->coef!=0)
+        {
+            if (flag == 0)
+            {
+             printf("%d %d",ctmp->coef, ctmp->exp);   
+             flag = 1;
+            }
+            else
+            printf(" %d %d",ctmp->coef, ctmp->exp);
+            
         }
         ctmp = ctmp->next;
     }
@@ -96,14 +124,26 @@ void add(polyPtr a, polyPtr b)
     if (all_zeros)
     {
         printf("0 0");
+        return;
     }
     else
     {
         atmp = a->next;
+        int flag = 0;
         while (atmp!=NULL)
     {
+        
+        
         if (atmp->coef!=0)
-            printf("%d %d ", atmp->coef, atmp->exp);
+        {
+            if (flag==0)
+                {
+                    printf("%d %d", atmp->coef, atmp->exp);
+                    flag = 1;
+                }
+            else
+                printf(" %d %d", atmp->coef, atmp->exp);
+        }
         atmp = atmp->next;
     }
     }        
