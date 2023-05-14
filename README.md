@@ -71,36 +71,3 @@ int msl(int left, int right)
 
 这让我想到了超大多位数加法、减法这些让我吃亏的东西
 
-git
-
-```sh
-git clone ... #这个是把版本仓库复制下来
-git init #创建本地版本仓库
-git config --global user.name ...
-git config --global user.email ...
-
-git add . #装弹,装填整个文件夹下所有东西
-git add <file.name> #装填特定文件，可以用于不装填部分未完成的文件
-git commit -m "I love U" #向当前所在的分支提交备份并
-git commit main.py -m "I completed func 2" #commit 也有类似功能
-git log #查看版本库
-git branch <...> | git checkout <...> #创建并移动到分支
-git checkout -b <...> #跟上面那个等价
-git merge main  git rebase main  #这两个区别我还没搞清楚
-
-git checkout bugFix #如果这个是commit 的名字（hash）就detach HEAD , 如果是分支的名字就移动到分支上 bugFix*
-git checkout main^ #移动HEAD到main 的parent 节点
-git checkout main^^ #移动两次
-git checkout HEAD~3 #移动多次,不能写节点名，要写HEAD指向或者具体分支名，分支名后不能跟~3
-git branch -f main HEAD~3 #强制移动分支位置
-#你注意， HEAD就是这个分支里你的操作位置，是唯一且最重要的
-
-git reset HEAD^ #这个是针对本地的
-git revert HEAD #这个针对远端，会再原有节点上新建一个退化节点出来
-git cherry_pick C3 C4 C7 #在HEAD停留的分支上创建副本，会长出来C3'，C4', C7'三个副本节点并按先后排列
-git rebase -i HEAD~3 #交互式调整节点顺序
-
-#你可以发现，Git会告诉你，git checkout -- file可以丢弃工作区的修改：
-$ git checkout -- readme.txt
-```
-
