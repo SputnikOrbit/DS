@@ -99,5 +99,8 @@ git reset HEAD^ #这个是针对本地的
 git revert HEAD #这个针对远端，会再原有节点上新建一个退化节点出来
 git cherry_pick C3 C4 C7 #在HEAD停留的分支上创建副本，会长出来C3'，C4', C7'三个副本节点并按先后排列
 git rebase -i HEAD~3 #交互式调整节点顺序
+
+#你可以发现，Git会告诉你，git checkout -- file可以丢弃工作区的修改：
+$ git checkout -- readme.txt
 ```
 
