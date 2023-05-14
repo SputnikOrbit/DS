@@ -194,6 +194,11 @@ void git_debug_test()
     
 }
 
+void test_git_transmission()
+{
+    char a[100] = "UTF-8";
+    
+}
 // 这道题我决定采用链表构造多项式，创造虚拟头节点的同时
 // 要设计方法：初始化、插入
 // 和多项式部分，直接将a的每一项插入到b中合适位置即可
