@@ -47,17 +47,42 @@ int hieracy(char opt)
     case '=':
         return -1;
     case '(':
-        return 3;
+        return 0;
     default:
         return 0;
     }
 }
 
-int calc();
+int postfix_calc(node* root)
+{
+    if (root->op==0)
+    {
+        return root->num;
+    }
+    
+    int a = postfix_calc(root->left);
+    int b = postfix_calc(root->right);
+
+    
+    switch (root->op)
+    {
+    case '+':
+    return a+b;
+    case '-':
+        return a-b;
+    case '*':
+        return a*b;
+
+    case '/':
+    return a/b;
+    break;
+    }
+    
+}
 
 int main()
 {
-    freopen("Untra_base.txt", "r", stdin);
+    //freopen("Untra_base.txt", "r", stdin);
     node fomula[200];
     char line[500];
     fgets(line, 500, stdin);
@@ -87,52 +112,116 @@ int main()
         }
         if (isopt(line[i]))
         {
-            int new_hie = hieracy(line[i]);
-            while (top!=-1&&new_hie < hieracy(stack[top]))
-            {
-                if(line[i]==')'&&stack[top]=='(')
-                {
-                    top--;
-                    break;
-                }
-                else if (stack[top]=='(')
-                {
-                    if (line[i]=='=')
-                    {
-                        while (top!=-1)
-                        {
-                            fomula[j].num = 0;
-                            fomula[j++].op = stack[top--];
-                        }
-                    }
-                    break;
-                }
 
-                fomula[j].num = 0;
-                fomula[j++].op = stack[top--];
-                //stack[top] = '\0';
-                if (top==-1)
-                {
-                    break;
-                }
+            if (line[i]==')')
+            {
+                 while (stack[top]!='(')
+                    {
+                        fomula[j].num = 0;
+                        fomula[j].op = stack[top--];
+                        j++;
+                    }
+                    top--;
             }
-            if(!(line[i]==')'))
+            else if (line[i]=='(')
             {
                 top++;
                 stack[top] = line[i];
             }
+            else
+            {
+                if (line[i]=='=')
+                {
+                    while (top!=-1)
+                    {
+                        fomula[j].num = 0;
+                        fomula[j].op = stack[top--];
+                        j++;
+                    }
+                    
+                }
+                else
+                {
+                    int new_hie = hieracy(line[i]);
+                    while (top!=-1&&(hieracy(stack[top]) >= new_hie))
+                    {
+                        fomula[j].num = 0;
+                        fomula[j].op = stack[top--];
+                        j++;
+                    }   
+                        top++;
+                        stack[top] = line[i];
+                }
+                
+            }
             
         }
     }
+    // for (int i = 0; i <j; i++)
+    // {
+    //     if (fomula[i].op)
+    //         printf("%c ",fomula[i].op);
+    //     else
+    //         printf("%d ",fomula[i].num);
+    // }
+    node* trees[200];
     for (int i = 0; i < j; i++)
     {
-        if (fomula[i].op)
-            printf("%c ",fomula[i].op);
-        else
-            printf("%d ",fomula[i].num);
+        trees[i] = (node*)malloc(sizeof(node));
+        int ch  = fomula[i].op;
+        int num = fomula[i].num;
+        trees[i]->num = num;
+        trees[i]->op = ch;
+        trees[i]->left = NULL;
+        trees[i]->right = NULL;
     }
+    node* trees_stack[150];
+    int ptr_top = -1;
+
+    for (int i = 0; i < j; i++)
+    {
+        if (trees[i]->op)
+        {
+            node* T2 = trees_stack[ptr_top--];
+            node* T1 = trees_stack[ptr_top--];
+            trees[i]->left = T1;
+            trees[i]->right = T2;
+        }
+        ptr_top++;
+        trees_stack[ptr_top] = trees[i];
+    }
+    
+    
+    
+    //printf("%c %c %c\n", trees_stack[0]->op, trees_stack[0]->left->op, trees_stack[0]->right->op);
+    node* root = trees_stack[0];
+    printf("%c",root->op);
+    if (root->left!=NULL)
+    if (root->left->op)
+    {
+    printf(" %c",root->left->op);
         
-    return 0;
+    }
+    else 
+    {
+    printf(" %d",root->left->num);
+
+    }
+    if (root->right!=NULL)
+    if (root->right->op)
+    {
+    printf(" %c",root->right->op);
+        
+    }
+    else 
+    {
+    printf(" %d",root->right->num);
+
+    }
+    printf("\n");
+
+    
+printf("%d", postfix_calc(root));    return 0;
     
 }
 
